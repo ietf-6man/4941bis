@@ -553,7 +553,14 @@ The resulting Interface Identifier SHOULD be compared against the reserved IPv6 
 
 
 			 <t>If the node has not configured any temporary address for the corresponding prefix, the node SHOULD create
-            a new temporary address for such prefix.</t>
+            a new temporary address for such prefix.
+<list style="hanging">
+<t hangText="Note:">
+<vspace blankLines="0" />For example, a host might implement prefix-specific policies such as
+not configuring temporary addresses for the Unique Local IPv6 Unicast
+Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
+</list>
+</t>
             <t>When creating a temporary address, the lifetime
             values MUST be derived from the corresponding prefix as
             follows: 
@@ -860,7 +867,7 @@ The resulting Interface Identifier SHOULD be compared against the reserved IPv6 
     </section>
 
 <section title="Acknowledgments">
-<t>The authors would like to thank (in alphabetical order) Brian Carpenter, Tim Chown, Lorenzo Colitti, David Farmer, Tom Herbert, Bob Hinden, Christian Huitema, Dave Plonka, Michael Richardson, Mark Smith, and Johanna Ullrich for providing valuable comments on earlier versions of this document.</t>
+<t>The authors would like to thank (in alphabetical order) Brian Carpenter, Tim Chown, Lorenzo Colitti, David Farmer, Tom Herbert, Bob Hinden, Christian Huitema, Dave Plonka, Michael Richardson, Mark Smith, Johanna Ullrich, and Timothy Winters, for providing valuable comments on earlier versions of this document.</t>
 
 <t>This document incoporates errata submitted for <xref target="RFC4941"/> by (in alphabetical order) Jiri Bohac and Alfred Hoenes.</t>
 
