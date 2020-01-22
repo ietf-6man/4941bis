@@ -8,7 +8,7 @@
 <?rfc sortrefs="yes"?>
 
 <rfc obsoletes="rfc4941" category="std" ipr="trust200902"
-docName="draft-ietf-6man-rfc4941bis-05">
+docName="draft-ietf-6man-rfc4941bis-latest">
   <front>
     <title abbrev="Privacy Extensions to Autoconf">Privacy
     Extensions for Stateless Address Autoconfiguration in
@@ -85,7 +85,7 @@ UTN-FRH</organization>
 the title) for use on http://www.rfc-editor.org/search.html. -->
 
 <keyword>privacy</keyword>
-<keyword>anonymity</keyword> 
+<keyword>anonymity</keyword>
 <keyword>unlinkability</keyword>
 <keyword>crypto-based address changing</keyword>
 
@@ -95,7 +95,7 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
       generate addresses using a combination of locally available
       information and information advertised by routers. Addresses
       are formed by combining network prefixes with an interface
-      identifier. This document describes an extension that causes 
+      identifier. This document describes an extension that causes
       nodes to generate global scope addresses with randomized interface identifiers
       that change over time. Changing global scope addresses over time makes it more
       difficult for eavesdroppers and other information collectors
@@ -105,7 +105,7 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
   </front>
   <middle>
     <section anchor="intro" title="Introduction">
-      <t>Stateless address autoconfiguration 
+      <t>Stateless address autoconfiguration
       <xref target='RFC4862' /> defines how an IPv6 node generates
       addresses without the need for a Dynamic Host Configuration Protocol for IPv6 (DHCPv6) server. The security and privacy implications of such addresses have been discussed in great detail in <xref target="RFC7721"/>,<xref target="RFC7217"/>, and RFC7707. This document specifies an extension for SLAAC to generate temporary addresses, such that the aforementioned issues are mitigated.</t>
 
@@ -118,12 +118,12 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
 
       <t>
       <xref target='SECTION2' /> provides background information on
-      the issue. 
+      the issue.
       <xref target='SECTION3' /> describes a procedure for
       generating temporary interface identifiers and global scope
-      addresses. 
+      addresses.
       <xref target='SECTION4' /> discusses implications of changing
-      interface identifiers. 
+      interface identifiers.
 </t>
 
 	<section title="Terminology" anchor="term">
@@ -132,7 +132,7 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
         <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL",
         "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY",
         and "OPTIONAL" in this document are to be interpreted as
-        described in 
+        described in
         <xref target='RFC2119' />.</t>
 -->
 
@@ -148,22 +148,22 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
 
 <t>The term "global scope addresses" is
       used in this document to collectively refer to "Global
-      unicast addresses" as defined in 
+      unicast addresses" as defined in
       <xref target='RFC4291' /> and "Unique local addresses" as
-      defined in 
+      defined in
       <xref target='RFC4193' />, and not to "globally reachable" as defined in <xref target="RFC8190"/>.</t>
 
 </section>
 
       <section title="Problem Statement">
         <t>Addresses generated using stateless address
-        autoconfiguration 
+        autoconfiguration
         <xref target='RFC4862' /> contain an embedded interface
         identifier, which remains stable over time. Anytime a
         fixed identifier is used in multiple contexts, it becomes
         possible to correlate seemingly unrelated activity using
         this identifier.</t>
-        <t>The correlation can be performed by 
+        <t>The correlation can be performed by
         <list style="symbols">
 		<t>An attacker who is in the path between the node in
           question and the peer(s) to which it is communicating, and
@@ -178,7 +178,7 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
         proposes a solution to this issue by generating interface
         identifiers that vary over time.</t>
         <t>Note that an attacker, who is on path, may be able to
-        perform significant correlation based on 
+        perform significant correlation based on
         <list style="symbols">
           <t>The payload contents of the packets on the wire</t>
           <t>The characteristics of the packets such as packet size
@@ -232,10 +232,10 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
         query), the information is often readily available. In such
         cases, changing the address on a machine over time would do
         little to address the concerns raised in this document,
-        unless the DNS name is changed as well (see 
+        unless the DNS name is changed as well (see
         <xref target='SECTION4' />).</t>
         <t>Web browsers and servers typically exchange "cookies"
-        with each other 
+        with each other
         <xref target='RFC6265' />. Cookies allow web servers to
         correlate a current activity with a previous activity. One
         common usage is to send back targeted advertising to a user
@@ -267,8 +267,8 @@ improve user privacy.</t>
 
       <section title="Possible Approaches">
         <t>One way to avoid having a stable non-changing address is
-        to use DHCPv6 <xref target='RFC8415' /> for obtaining addresses. 
-	Section 12 of 
+        to use DHCPv6 <xref target='RFC8415' /> for obtaining addresses.
+	Section 12 of
         <xref target='RFC8415' /> discusses the use of DHCPv6 for the
         assignment and management of "temporary addresses", which
         are never renewed and provide the same property of
@@ -276,7 +276,7 @@ improve user privacy.</t>
         to the privacy concern.</t>
         <t>Another approach, compatible with the stateless address
         autoconfiguration architecture, would be to change the
-        interface identifier portion of an address over time. Changing 
+        interface identifier portion of an address over time. Changing
         the interface identifier can
         make it more difficult to look at the IP addresses in
         independent transactions and identify which ones actually
@@ -291,8 +291,8 @@ improve user privacy.</t>
         constant and serves as a constant identifier. When acting
         as a client (e.g., initiating communication), however, such
         a machine may want to vary the addresses it uses. In such
-        environments, one may need multiple addresses: a stable 
-        address registered in the DNS, that is used to accept 
+        environments, one may need multiple addresses: a stable
+        address registered in the DNS, that is used to accept
 		incoming connection requests from
         other machines, and a temporary address used to shield
         the identity of the client when it initiates communication.
@@ -301,7 +301,7 @@ improve user privacy.</t>
         in the public phone book, but disable the display of its
         number via caller ID when initiating calls.--></t>
 
-		<t>On the other hand, a machine that functions only as a 
+		<t>On the other hand, a machine that functions only as a
            client may want to employ only temporary addresses for
            public communication.</t>
 
@@ -317,7 +317,7 @@ improve user privacy.</t>
         requirements for temporary addresses. This document specifies
         a number of algorithms for generating temporary addresses that comply
         with the aforementioned requirements.</t>
--->        
+-->
 <!--
 		<t>Picking identifiers from a
         pseudo-random sequence suffices, so long as the specific
@@ -359,7 +359,7 @@ improve user privacy.</t>
 
 
           <t>By default, one address is generated for each
-          prefix advertised for stateless address autoconfiguration. The resulting Interface Identifiers must be statistically different when addresses are configured 
+          prefix advertised for stateless address autoconfiguration. The resulting Interface Identifiers must be statistically different when addresses are configured
    for different prefixes.  That is, when temporary addresses are generated for different
    autoconfiguration prefixes for the same network interface, the resulting Interface Identifiers must be
    statistically different.  This means that, given two addresses that employ different prefixes, it must
@@ -372,7 +372,7 @@ improve user privacy.</t>
    Identifiers that will be employed for temporary addresses, even with knowledge
    of the algorithm/method employed to generate them and/or knowledge of the Interface Identifiers previously employed for other temporary addresses. These Interface Identifiers must be semantically opaque <xref target="RFC7136"/> and must not follow any specific patterns.</t>
 
-</list> 
+</list>
 </t>
 
 
@@ -385,7 +385,7 @@ improve user privacy.</t>
         of the associated randomized interface identifier is used.
         While the same identifier can be used to create more than
         one temporary address, the value SHOULD change over time as
-        described in 
+        described in
         <xref target='REGEN' />.</t>
 -->
         <t>The following algorithm assumes that for a given temporary
@@ -398,7 +398,7 @@ improve user privacy.</t>
         <t>Finally, this document assumes that when a node
         initiates outgoing communication, temporary addresses can
         be given preference over stable addresses (if available), when the device
-        is configured to do so. 
+        is configured to do so.
         <xref target='RFC6724' /> mandates implementations to
         provide a mechanism, which allows an application to
         configure its preference for temporary addresses over
@@ -409,7 +409,7 @@ improve user privacy.</t>
         enablement. This document also assumes that an API will
         exist that allows individual applications to indicate
         whether they prefer to use temporary or stable addresses
-        and override the system defaults. 
+        and override the system defaults.
    </t>
       </section>
 
@@ -446,7 +446,7 @@ The resulting Interface Identifier SHOULD be compared against the reserved IPv6 
 </list>
 </t>
 
- 
+
 
 </section>
 <section title="Hash-based Generation of Randomized Interface Identifiers" anchor="RFC-7217">
@@ -519,7 +519,7 @@ The resulting Interface Identifier SHOULD be compared against the reserved IPv6 
         <xref target='RFC4862' /> describes the steps for
         generating a link-local address when an interface becomes
         enabled as well as the steps for generating addresses for
-        other scopes. This document extends 
+        other scopes. This document extends
         <xref target='RFC4862' /> as follows. When processing a
         Router Advertisement with a Prefix Information option
         carrying a global scope prefix for the purposes of address
@@ -528,7 +528,7 @@ The resulting Interface Identifier SHOULD be compared against the reserved IPv6 
         <t>
 <!-- XXX: The I-D version said (TEMP_VALID_LIFETIME - DESYNC_FACTOR) -->
           <list style="numbers">
-            <t>Process the Prefix Information Option as defined in 
+            <t>Process the Prefix Information Option as defined in
             <xref target='RFC4862' />, adjusting the lifetimes of existing
             temporary addresses. If a received
             option may extend the lifetimes of temporary addresses, with the overall constraint that no
@@ -549,7 +549,7 @@ The resulting Interface Identifier SHOULD be compared against the reserved IPv6 
             received lifetime or (CREATION_TIME +
             TEMP_PREFERRED_LIFETIME - DESYNC_FACTOR). A similar
             approach can be used with the valid lifetime.</t>
-           
+
 
 
 			 <t>If the node has not configured any temporary address for the corresponding prefix, the node SHOULD create
@@ -563,7 +563,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
 </t>
             <t>When creating a temporary address, the lifetime
             values MUST be derived from the corresponding prefix as
-            follows: 
+            follows:
             <list style="symbols">
               <t>Its Valid Lifetime is the lower of the Valid
               Lifetime of the prefix and TEMP_VALID_LIFETIME</t>
@@ -582,7 +582,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
             (DAD) on the generated temporary address. If DAD
             indicates the address is already in use, the node MUST
             generate a new randomized interface identifier<!-- as
-            described in 
+            described in
             <xref target='SECTION3_2' /> above-->, and repeat the
             previous steps as appropriate up to TEMP_IDGEN_RETRIES
             times. If after TEMP_IDGEN_RETRIES consecutive attempts
@@ -598,7 +598,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
       title="Expiration of Temporary Addresses">
         <t>When a temporary address becomes deprecated, a new one
         MUST be generated. This is done by repeating the actions
-        described in 
+        described in
         <xref target='SECTION3_3' />, starting at step 4). Note
         that, except for the transient period when a temporary
         address is being regenerated, in normal operation at most
@@ -619,7 +619,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
         deprecated.</t>
         <t>As an optional optimization, an implementation MAY
         remove a deprecated temporary address that is not in use by
-        applications or upper layers as detailed in 
+        applications or upper layers as detailed in
         <xref target='SECTION6' />.</t>
       </section>
       <section anchor="REGEN"
@@ -645,7 +645,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
         every few minutes) may have performance implications.</t>
         <t>Nodes following this specification SHOULD generate new
         temporary addresses on a periodic basis. This can be
-        achieved by generating a new temporary address 
+        achieved by generating a new temporary address
         at least once every
         (TEMP_PREFERRED_LIFETIME - REGEN_ADVANCE - DESYNC_FACTOR)
         time units. As described above, generating a new temporary
@@ -670,7 +670,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
         (TEMP_VALID_LIFETIME) may not be appropriate in all
         environments. Implementations SHOULD provide end users with
         the ability to override both of these default values.</t>
-        <t>Finally, when an interface connects to a new (different) link, a new set 
+        <t>Finally, when an interface connects to a new (different) link, a new set
         of temporary addresses MUST be generated immediately.
         If a device moves from one ethernet to another, generating
         a new set of temporary addresses ensures that the device
@@ -693,7 +693,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
         <t>Additionally, sites might wish to selectively enable or
         disable the use of temporary addresses for some prefixes.
         For example, a site might wish to disable temporary address
-        generation for "Unique local" 
+        generation for "Unique local"
         <xref target='RFC4193' /> prefixes while still generating
         temporary addresses for all other global prefixes. Another
         site might wish to enable temporary address generation only
@@ -801,7 +801,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
       structures once no upper layer protocols are using it (but
       not before). This is in contrast to current approaches where
       addresses are removed from an interface when they become
-      invalid 
+      invalid
       <xref target='RFC4862' />, independent of whether or not
       upper layer protocols are still using them. For TCP
       connections, such information is available in control blocks.
@@ -820,16 +820,16 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
       individual applications to indicate with sufficient
       granularity their needs with regards to the use of temporary
       addresses.--> Recommendations on DNS practices to avoid the
-      problem described in 
+      problem described in
       <xref target='SECTION4' /> when reverse DNS lookups fail may
-      be needed. 
+      be needed.
       <xref target='RFC4472' /> contains a more detailed discussion of
       the DNS-related issues.</t>
       <t>While this document discusses ways of obscuring a user's
       IP address, the method described is believed to be
       ineffective against sophisticated forms of traffic analysis.
       To increase effectiveness, one may need to consider use of
-      more advanced techniques, such as Onion Routing 
+      more advanced techniques, such as Onion Routing
       <xref target='ONION' />.</t>
     </section>
 
@@ -852,7 +852,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
     <section title="Significant Changes from RFC4941">
       <t>This section summarizes the changes in this document
       relative to RFC 4941 that an implementer of RFC 4941 should
-      be aware of. 
+      be aware of.
       <list style="numbers">
 		<t>Discussion of IEEE-based IIDs has been removed, since the current recommendation (<xref target="RFC8064"/>) is to employ <xref target="RFC7217"/>).</t>
 		<t>The document employs the terminology from <xref target="RFC7721"/>.</t>
@@ -887,7 +887,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
   <back>
 
     <references title="Normative References">
-<!-- XXX: A ser eliminados 
+<!-- XXX: A ser eliminados
 	<?rfc include="reference.RFC.4861" ?>
 	<?rfc include="reference.RFC.3971" ?>
 	<?rfc include="reference.RFC.3972" ?>
@@ -903,7 +903,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
 <!-- Added as a result of algorithm specification -->
 	<?rfc include="reference.RFC.4086" ?>
 	<?rfc include="reference.RFC.5453" ?>
-	<?rfc include="reference.RFC.7136" ?> 
+	<?rfc include="reference.RFC.7136" ?>
 	<?rfc include="reference.RFC.8064" ?>
 
 	<?rfc include="reference.RFC.7217" ?>
@@ -952,7 +952,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
 
     <author>
 		<organization>NIST</organization>
-    </author>  
+    </author>
 
 			<date month="March" year="2012"/>
 		</front>
@@ -965,7 +965,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
 
     <author>
 		<organization>The Open Group</organization>
-    </author>  
+    </author>
 
 			<date year="2016"/>
 		</front>
@@ -1013,7 +1013,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
 
 <!--	<?rfc include="reference.I-D.gont-6man-non-stable-iids" ?> -->
 <!--
-	<?rfc include="reference.I-D.gont-taps-address-usage-problem-statement" ?> 
+	<?rfc include="reference.I-D.gont-taps-address-usage-problem-statement" ?>
 -->
 
 
