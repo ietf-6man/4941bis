@@ -100,20 +100,19 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
       that change over time. Changing global scope addresses over time makes it more
       difficult for eavesdroppers and other information collectors
       to identify when different addresses used in different
-      transactions actually correspond to the same node. This document formally obsoletes RFC4941.</t>
+      transactions correspond to the same node. This document obsoletes RFC4941.</t>
     </abstract>
   </front>
   <middle>
     <section anchor="intro" title="Introduction">
-      <t>Stateless address autoconfiguration
+      <t>Stateless address autoconfiguration (SLAAC)
       <xref target='RFC4862' /> defines how an IPv6 node generates
       addresses without the need for a Dynamic Host Configuration Protocol for IPv6 (DHCPv6) server. The security and privacy implications of such addresses have been discussed in great detail in <xref target="RFC7721"/>,<xref target="RFC7217"/>, and RFC7707. This document specifies an extension for SLAAC to generate temporary addresses, such that the aforementioned issues are mitigated.</t>
 
-<t>The default address selection for IPv6 has been specified in <xref target="RFC6724"/>. We note that the determination as to whether to use stable versus temporary addresses can in some cases only be made by an application. For example, some applications may always want
+<t>The default address selection for IPv6 has been specified in <xref target="RFC6724"/>. The determination as to whether to use stable versus temporary addresses can in some cases only be made by an application. For example, some applications may always want
       to use temporary addresses, while others may want to use them
       only in some circumstances or not at all. An API such as that specified in <xref target="RFC5014"/> can enable
-      individual applications to indicate with sufficient granularity their needs with regards to the use of temporary
-      addresses.
+      individual applications to indicate a preference for the use of temporary addresses.
 </t>
 
       <t>
@@ -159,7 +158,7 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
         <t>Addresses generated using stateless address
         autoconfiguration
         <xref target='RFC4862' /> contain an embedded interface
-        identifier, which remains stable over time. Anytime a
+        identifier, which may remain stable over time. Anytime a
         fixed identifier is used in multiple contexts, it becomes
         possible to correlate seemingly unrelated activity using
         this identifier.</t>
@@ -173,25 +172,25 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
           the peers with which the node has communicated.</t>
         </list></t>
         <t>Since the identifier is embedded within the IPv6
-        address, which is a fundamental requirement of
-        communication, it cannot be easily hidden. This document
+        address, it cannot be hidden. This document
         proposes a solution to this issue by generating interface
         identifiers that vary over time.</t>
         <t>Note that an attacker, who is on path, may be able to
-        perform significant correlation based on
+        perform significant correlation on unencrypted packets based on
         <list style="symbols">
           <t>The payload contents of the packets on the wire</t>
           <t>The characteristics of the packets such as packet size
           and timing</t>
         </list>Use of temporary addresses will not prevent such
         payload-based correlation, which can only be addressed by widespread deployment of encryption as advocated in <xref target="RFC7624"/>.</t>
+      <t>Nor will it prevent an on-link observer (e.g. the node's default router) to track all the node's addresses.</t>
       </section>
     </section>
 <!--    <vspace blankLines="100" /> -->
 
     <section anchor="SECTION2" title="Background">
       <t>This section discusses the problem in more detail,
-      provides context for evaluating the significance of the
+      and provides context for evaluating the significance of the
       concerns in specific environments and makes comparisons with
       existing practices.</t>
       <section title="Extended Use of the Same Identifier">
@@ -219,7 +218,7 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
         nodes within a home could be grouped together for the
         purposes of collecting information. If the network contains
         a very small number of nodes, say, just one, changing just
-        the interface identifier will not enhance privacy at all,
+        the interface identifier will not enhance privacy,
         since the prefix serves as a constant identifier.</t>
         <t>One of the requirements for correlating seemingly
         unrelated activities is the use (and reuse) of an
@@ -255,8 +254,8 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
         movement of that mobile host from place to place, even if
         the upper layer payloads were encrypted.</t>
 
-<t>Using temporary address alone may not be sufficient to prevent all forms of tracking. It
-is however quite clear that some usage of temporary addresses is necessary to
+<t>Using temporary addresses alone is not sufficient to prevent all forms of tracking. It
+is however clear that temporary addresses is useful to
 improve user privacy.</t>
 
 		<t>The security and privacy implications of IPv6 addresses are discussed in
@@ -274,7 +273,7 @@ improve user privacy.</t>
         are never renewed and provide the same property of
         temporary addresses described in this document with regards
         to the privacy concern.</t>
-        <t>Another approach, compatible with the stateless address
+        <t>One approach, compatible with the stateless address
         autoconfiguration architecture, would be to change the
         interface identifier portion of an address over time. Changing
         the interface identifier can
@@ -339,16 +338,16 @@ improve user privacy.</t>
     </section>
 
     <section anchor="SECTION3" title="Protocol Description">
-      <t>The goal of this section is to define procedures that can generate IPv6 addresses with the following properties:</t>
+      <t>This section defines the procedures for generation of IPv6 addresses with the following properties:</t>
       <t>
         <list style="numbers">
-          <t>Temporary addresses can be employed for initiating
+          <t>Temporary addresses that can be employed for initiating
           outgoing sessions.</t>
 
-<t>Temporary addresses
-          are used for a short period of time (typically hours to days)
+<t>Temporary addresses that can be
+          used for a short period of time (typically hours to days)
           and are subsequently deprecated. Deprecated addresses can
-          continue to be used for already established connections,
+          continue to be used for established connections,
           but are not used to initiate new connections. </t>
 
 <t>New
@@ -359,7 +358,7 @@ improve user privacy.</t>
 
 
           <t>By default, one address is generated for each
-          prefix advertised for stateless address autoconfiguration. The resulting Interface Identifiers must be statistically different when addresses are configured
+          prefix advertised by stateless address autoconfiguration. The resulting Interface Identifiers must be statistically different when addresses are configured
    for different prefixes.  That is, when temporary addresses are generated for different
    autoconfiguration prefixes for the same network interface, the resulting Interface Identifiers must be
    statistically different.  This means that, given two addresses that employ different prefixes, it must
@@ -418,20 +417,20 @@ improve user privacy.</t>
       <section anchor="SECTION3_2"
       title="Generation of Randomized Interface Identifiers">
 
-<t>The following subsections specify some possible algorithms for generating temporary interface identifiers that follow the guidelines in <xref target="SECTION3"/> of this document. The algorithm specified in <xref target="randomized-IIDs"/> benefits from a Pseudo-Random Number Generator (PRNG) available on the system. On the other hand, the algorithm specified in <xref target="RFC-7217"/> allows for code reuse by nodes that implement <xref target="RFC7217"/>.
+<t>The following subsections specify example algorithms for generating temporary interface identifiers that follow the guidelines in <xref target="SECTION3"/> of this document. The algorithm specified in <xref target="randomized-IIDs"/> benefits from a Pseudo-Random Number Generator (PRNG) available on the system. The algorithm specified in <xref target="RFC-7217"/> allows for code reuse by nodes that implement <xref target="RFC7217"/>.
 
 <!--<xref target="traditional"/> specifies the traditional algorithm for generating randomized interface identifiers. <xref target="RFC-7217"/> and <xref target="randomized-IIDs"/> specify other possible algorithms.--></t>
 
 
 
 <section title="Simple Randomized Interface Identifiers" anchor="randomized-IIDs">
-<t>One possible approach would be to select a pseudorandom number of the appropriate length. A node employing this algorithm should generate IIDs as follows:
+<t>One approach is to select a pseudorandom number of the appropriate length. A node employing this algorithm should generate IIDs as follows:
 
 <list style="numbers">
 <t>Obtain a random number (see <xref target="RFC4086"/> for randomness requirements for
- security)</t>
+ security).</t>
 
-<t>The Interface Identifier is obtained by taking as many bits from the aforementioned random number (obtained in the previous step) as necessary. Note: there are no special bits in an Interface Identifier <xref target="RFC7136"/>.
+<t>The Interface Identifier is obtained by taking as many bits from the random number obtained in the previous step as necessary. Note: there are no special bits in an Interface Identifier <xref target="RFC7136"/>.
 
 <list style="hanging">
 <t>We note that <xref target="RFC4291"/> requires that the Interface
@@ -471,7 +470,7 @@ or control of the other input parameters. F() SHOULD produce an output of at lea
 <t hangText="Prefix:">
 <vspace blankLines="0" />The prefix to be used for SLAAC, as learned from an ICMPv6 Router Advertisement message.</t>
 <t hangText="MAC_Address:">
-<vspace blankLines="0" />The MAC address corresponding to the underlying network interface card. Employing the MAC address in this expression (in replacement of the Net_Iface parameter of the expression in RFC7217) means that the re-generation of a randomized MAC address will result in a different temporary address.</t>
+<vspace blankLines="0" />The MAC address corresponding to the underlying network interface card, in the case the link uses IEEE802 link-layer identifiers. Employing the MAC address in this expression (in replacement of the Net_Iface parameter of the expression in RFC7217) means that the re-generation of a randomized MAC address will result in a different temporary address.</t>
 <t hangText="Network_ID:">
 <vspace blankLines="0" />Some network-specific data that identifies
 the subnet to which this interface is attached -- for example, the IEEE 802.11 Service Set Identifier (SSID) corresponding to the network to which this interface is associated. Additionally, Simple DNA <xref target="RFC6059"/> describes ideas that could be leveraged to generate a Network_ID parameter. This parameter is SHOULD be employed if some form of "Network_ID" is available.</t>
@@ -522,7 +521,7 @@ The resulting Interface Identifier SHOULD be compared against the reserved IPv6 
         other scopes. This document extends
         <xref target='RFC4862' /> as follows. When processing a
         Router Advertisement with a Prefix Information option
-        carrying a global scope prefix for the purposes of address
+        carrying a prefix for the purposes of address
         autoconfiguration (i.e., the A bit is set), the node MUST
         perform the following steps:</t>
         <t>
@@ -588,9 +587,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
             times. If after TEMP_IDGEN_RETRIES consecutive attempts
             no non-unique address was generated, the node MUST log
             a system error and MUST NOT attempt to generate
-            temporary addresses for that interface. Note that DAD
-            MUST be performed on every unicast address generated
-            from this randomized interface identifier.</t>
+            temporary addresses for that interface.</t>
           </list>
         </t>
       </section>
@@ -671,8 +668,8 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
         environments. Implementations SHOULD provide end users with
         the ability to override both of these default values.</t>
         <t>Finally, when an interface connects to a new (different) link, a new set
-        of temporary addresses MUST be generated immediately.
-        If a device moves from one ethernet to another, generating
+        of temporary addresses MUST be generated immediately for use on the new link.
+        If a device moves from one link to another, generating
         a new set of temporary addresses ensures that the device
         uses different randomized interface identifiers for the
         temporary addresses associated with the two links, making
@@ -681,7 +678,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
         follow any process available to it, to determine that the
         link change has occurred. One such process is described by "Simple Procedures for Detecting Network Attachment in IPv6" <xref target='RFC6059' />. Detecting link changes would prevent link down/up events from causing temporary addresses to be (unnecessarily) regenerated.</t>
       </section>
-      <section title="Deployment Considerations">
+      <section title="Implementation Considerations">
         <t>Devices implementing this specification MUST provide a
         way for the end user to explicitly enable or disable the
         use of temporary addresses. In addition, a site might wish
@@ -828,7 +825,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
       <t>While this document discusses ways of obscuring a user's
       IP address, the method described is believed to be
       ineffective against sophisticated forms of traffic analysis.
-      To increase effectiveness, one may need to consider use of
+      To increase effectiveness, one may need to consider the use of
       more advanced techniques, such as Onion Routing
       <xref target='ONION' />.</t>
     </section>
@@ -869,15 +866,15 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
 <section title="Acknowledgments">
 <t>The authors would like to thank (in alphabetical order) Brian Carpenter, Tim Chown, Lorenzo Colitti, David Farmer, Tom Herbert, Bob Hinden, Christian Huitema, Dave Plonka, Michael Richardson, Mark Smith, Johanna Ullrich, and Timothy Winters, for providing valuable comments on earlier versions of this document.</t>
 
-<t>This document incoporates errata submitted for <xref target="RFC4941"/> by (in alphabetical order) Jiri Bohac and Alfred Hoenes.</t>
+<t>This document incorporates errata submitted for <xref target="RFC4941"/> by Jiri Bohac and Alfred Hoenes.</t>
 
-      <t>This document is based on <xref target="RFC4941"/> (a revision of RFC3041). Suresh Krishnan was the sole author of RFC4941. He would like to acknowledge the contributions of the ipv6 working
+      <t>This document is based on <xref target="RFC4941"/> (a revision of RFC3041). Suresh Krishnan was the sole author of RFC4941. He would like to acknowledge the contributions of the IPv6 working
    group and, in particular, Jari Arkko, Pekka Nikander, Pekka Savola,
    Francis Dupont, Brian Haberman, Tatuya Jinmei, and Margaret Wasserman
    for their detailed comments.</t>
 <t>
    Rich Draves and Thomas Narten were the authors of RFC 3041.  They
-   would like to acknowledge the contributions of the ipv6 working group
+   would like to acknowledge the contributions of the IPv6 working group
    and, in particular, Ran Atkinson, Matt Crawford, Steve Deering,
    Allison Mankin, and Peter Bieringer.
 </t>
