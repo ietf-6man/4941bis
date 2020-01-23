@@ -865,7 +865,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
     </section>
 
 <section title="Acknowledgments">
-<t>The authors would like to thank (in alphabetical order) Brian Carpenter, Tim Chown, Lorenzo Colitti, David Farmer, Tom Herbert, Bob Hinden, Christian Huitema, Dave Plonka, Michael Richardson, Mark Smith, Johanna Ullrich, and Timothy Winters, for providing valuable comments on earlier versions of this document.</t>
+<t>The authors would like to thank (in alphabetical order) Brian Carpenter, Tim Chown, Lorenzo Colitti, David Farmer, Tom Herbert, Bob Hinden, Christian Huitema, Erik Kline, Dave Plonka, Michael Richardson, Mark Smith, Ole Troan, Johanna Ullrich, and Timothy Winters, for providing valuable comments on earlier versions of this document.</t>
 
 <t>This document incorporates errata submitted for <xref target="RFC4941"/> by Jiri Bohac and Alfred Hoenes.</t>
 
