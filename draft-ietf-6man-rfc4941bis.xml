@@ -255,7 +255,7 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
         the upper layer payloads were encrypted.</t>
 
 <t>Using temporary addresses alone is not sufficient to prevent all forms of tracking. It
-is however clear that temporary addresses is useful to
+is however clear that temporary addresses are useful to
 improve user privacy.</t>
 
 		<t>The security and privacy implications of IPv6 addresses are discussed in
