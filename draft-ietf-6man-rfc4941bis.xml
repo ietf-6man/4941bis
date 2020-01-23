@@ -944,7 +944,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
 	<?rfc include="reference.RFC.1321" ?>
 	<?rfc include="reference.RFC.6151" ?>
 
-	<reference anchor="FIPS-SHS" target="http://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf">
+	<reference anchor="FIPS-SHS" target="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf">
 		<front>
 			<title>Secure Hash Standard (SHS)</title>
 
