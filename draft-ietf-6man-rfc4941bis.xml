@@ -272,7 +272,7 @@ improve user privacy.</t>
         are never renewed and provide the same property of
         temporary addresses described in this document with regards
         to the privacy concern.</t>
-        <t>One approach, compatible with the stateless address
+        <t>Another approach, compatible with the stateless address
         autoconfiguration architecture, would be to change the
         interface identifier portion of an address over time. Changing
         the interface identifier can
