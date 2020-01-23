@@ -467,7 +467,7 @@ Where:
 <vspace blankLines="0" />Random Identifier</t>
 <t hangText="F():">
 <vspace blankLines="0" />A pseudorandom function (PRF) that MUST NOT be computable from the outside (without knowledge of the secret key). F() MUST also be difficult to reverse, such that it resists attempts to obtain the secret_key, even when given samples of the output of F() and knowledge
-or control of the other input parameters. F() SHOULD produce an output of at least 64 bits. F() could be implemented as a cryptographic hash of the concatenation of each of the function parameters. SHA-1 <xref target="FIPS-SHS"/> and SHA-256 are two possible options for F(). Note: MD5 <xref target="RFC1321"/> is considered unacceptable for F() <xref target="RFC6151"/>.</t>
+or control of the other input parameters. F() SHOULD produce an output of at least 64 bits. F() could be implemented as a cryptographic hash of the concatenation of each of the function parameters. SHA-256 is one possible option for F(). Note: MD5 <xref target="RFC1321"/> is considered unacceptable for F() <xref target="RFC6151"/>.</t>
 <t hangText="Prefix:">
 <vspace blankLines="0" />The prefix to be used for SLAAC, as learned from an ICMPv6 Router Advertisement message.</t>
 <t hangText="MAC_Address:">
