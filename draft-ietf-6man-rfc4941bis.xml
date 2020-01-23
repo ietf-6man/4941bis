@@ -341,13 +341,14 @@ improve user privacy.</t>
       <t>
         <list style="numbers">
 
+          <t>Temporary addresses are typically employed for initiating
+          outgoing sessions.</t>
+
 <t>Temporary addresses are used for a short period of time (typically hours to days)
           and are subsequently deprecated. Deprecated addresses can
           continue to be used for established connections,
           but are not used to initiate new connections. </t>
 
-          <t>Temporary addresses are typically employed for initiating
-          outgoing sessions.</t>
 
 
 
