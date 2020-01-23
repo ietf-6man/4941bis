@@ -182,8 +182,7 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
           <t>The characteristics of the packets such as packet size
           and timing</t>
         </list>Use of temporary addresses will not prevent such
-        payload-based correlation, which can only be addressed by widespread deployment of encryption as advocated in <xref target="RFC7624"/>.</t>
-      <t>Nor will it prevent an on-link observer (e.g. the node's default router) to track all the node's addresses.</t>
+        payload-based correlation, which can only be addressed by widespread deployment of encryption as advocated in <xref target="RFC7624"/>. Nor will it prevent an on-link observer (e.g. the node's default router) to track all the node's addresses.</t>
       </section>
     </section>
 <!--    <vspace blankLines="100" /> -->
