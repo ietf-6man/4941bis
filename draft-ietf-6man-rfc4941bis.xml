@@ -337,17 +337,19 @@ improve user privacy.</t>
     </section>
 
     <section anchor="SECTION3" title="Protocol Description">
-      <t>This section defines the procedures for the generation of IPv6 addresses with the following properties:</t>
+      <t>This section defines the procedures for the generation of IPv6 temporary addresses with the following properties:</t>
       <t>
         <list style="numbers">
-          <t>Temporary addresses that can be employed for initiating
-          outgoing sessions.</t>
 
-<t>Temporary addresses that can be
-          used for a short period of time (typically hours to days)
+<t>Temporary addresses are used for a short period of time (typically hours to days)
           and are subsequently deprecated. Deprecated addresses can
           continue to be used for established connections,
           but are not used to initiate new connections. </t>
+
+          <t>Temporary addresses are typically employed for initiating
+          outgoing sessions.</t>
+
+
 
 <t>New
           temporary addresses are generated periodically to replace
