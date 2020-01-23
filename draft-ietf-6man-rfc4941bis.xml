@@ -337,7 +337,7 @@ improve user privacy.</t>
     </section>
 
     <section anchor="SECTION3" title="Protocol Description">
-      <t>This section defines the procedures for generation of IPv6 addresses with the following properties:</t>
+      <t>This section defines the procedures for the generation of IPv6 addresses with the following properties:</t>
       <t>
         <list style="numbers">
           <t>Temporary addresses that can be employed for initiating
