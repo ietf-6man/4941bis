@@ -107,13 +107,14 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
     <section anchor="intro" title="Introduction">
       <t>Stateless address autoconfiguration (SLAAC)
       <xref target='RFC4862' /> defines how an IPv6 node generates
-      addresses without the need for a Dynamic Host Configuration Protocol for IPv6 (DHCPv6) server. The security and privacy implications of such addresses have been discussed in great detail in <xref target="RFC7721"/>,<xref target="RFC7217"/>, and RFC7707. This document specifies an extension for SLAAC to generate temporary addresses, such that the aforementioned issues are mitigated.</t>
+      addresses without the need for a Dynamic Host Configuration Protocol for IPv6 (DHCPv6) server. The security and privacy implications of such addresses have been discussed in great detail in <xref target="RFC7721"/>,<xref target="RFC7217"/>, and RFC7707. This document specifies an extension for SLAAC to generate temporary addresses, such that the aforementioned issues are mitigated. This is a revision of RFC4941, and formally obsoletes RFC4941. <xref target="changes"/> describes the changes from <xref target="RFC4941"/>.
 
 <t>The default address selection for IPv6 has been specified in <xref target="RFC6724"/>. The determination as to whether to use stable versus temporary addresses can in some cases only be made by an application. For example, some applications may always want
       to use temporary addresses, while others may want to use them
       only in some circumstances or not at all. An API such as that specified in <xref target="RFC5014"/> can enable
       individual applications to indicate a preference for the use of temporary addresses.
 </t>
+
 
       <t>
       <xref target='SECTION2' /> provides background information on
@@ -122,7 +123,7 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
       generating temporary interface identifiers and global scope
       addresses.
       <xref target='SECTION4' /> discusses implications of changing
-      interface identifiers.
+      interface identifiers. <xref target="changes"/> describes the changes from <xref target="RFC4941"/>.
 </t>
 
 	<section title="Terminology" anchor="term">
@@ -793,6 +794,25 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
       than (TEMP_PREFERRED_LIFETIME - REGEN_ADVANCE).</t>
       <t>TEMP_IDGEN_RETRIES -- Default value: 3</t>
     </section>
+
+
+    <section anchor="changes" title="Significant Changes from RFC4941">
+
+      <t>This section summarizes the changes in this document
+      relative to RFC 4941 that an implementer of RFC 4941 should
+      be aware of.</t>
+
+<t>Broadly speaking, this document introduces the following changes:
+<list style="symbols">
+<t>Addresses a number of flaws in the algorithm for generating temporary addresses (see <xref target="RAID2015"/> and <xref target="RFC7721"/>).</t>
+<t>Allows hosts to employ only temporary addresses (i.e. configuration of stable addresses is no longer implied or required).</t>
+<t>Suggests that temporary addresses be enabled by default (in line with <xref target="RFC7258"/>).</t>
+<t>Addresses all errata submitted for <xref target="RFC4941"/>.</t>
+</list>
+</t>
+</section>
+
+
     <section anchor="SECTION6" title="Future Work">
       <t>An implementation might want to keep track of which
       addresses are being used by upper layers so as to be able to
@@ -930,6 +950,22 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
 	<?rfc include="reference.RFC.1321" ?>
 	<?rfc include="reference.RFC.6151" ?>
 
+      <reference anchor="RAID2015" target="https://www.sba-research.org/wp-content/uploads/publications/Ullrich2015Privacy.pdf">
+        <front>
+          <title>Privacy is Not an Option: Attacking the IPv6 Privacy Extension</title>
+
+          <author fullname="Johanna Ullrich" initials="J." surname="Ullrich">
+          </author>
+
+          <author fullname="Edgar R. Weippl" initials="E.R." surname="Weippl">
+          </author>
+          <date/>
+        </front>
+
+        <seriesInfo name=""
+                    value="International Symposium on Recent Advances in Intrusion Detection (RAID), 2015"/>
+      </reference>
+
 	<reference anchor="FIPS-SHS" target="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf">
 		<front>
 			<title>Secure Hash Standard (SHS)</title>
@@ -1013,24 +1049,10 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
     </references>
 
 
-    <section title="Significant Changes from RFC4941">
+    <section title="Changes from RFC4941 [to be removed by the RFC-Editor before publication">
 
 
-      <t>This section summarizes the changes in this document
-      relative to RFC 4941 that an implementer of RFC 4941 should
-      be aware of.</t>
-
-<t>Broadly speaking, this document introduces the following changes:
-<list style="symbols">
-<t>Addresses a number of flaws in the algorithm for generating temporary addresses.</t>
-<t>Allows hosts to employ only temporary addresses (i.e. configuration of stable addresses is no longer implied or required).</t>
-<t>Suggests that temporary addresses be enabled by default (in line with <xref target="RFC7258"/>).</t>
-<t>Addresses all errata submitted for <xref target="RFC4941"/>.</t>
-</list>
-</t>
-
-
-<t>The following is a more detailed list of the incorporated changes:
+<t>The following changes have been introduced by this document:
       <list style="numbers">
 		<t>Discussion of IIDs based on IEEE identifiers has been removed, since the current recommendation (<xref target="RFC8064"/>) is to employ <xref target="RFC7217"/>).</t>
 		<t>The document employs the terminology from <xref target="RFC7721"/>.</t>
