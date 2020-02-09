@@ -254,17 +254,20 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
         movement of that mobile host from place to place, even if
         the upper layer payloads were encrypted.</t>
 
+		<t>The security and privacy implications of IPv6 addresses are discussed in
+           detail in <xref target="RFC7721"/>, <xref target="RFC7707"/>, and <xref target="RFC7217"/>.</t>
+
 <t>Using temporary addresses alone is not sufficient to prevent all forms of tracking. It
 is however clear that temporary addresses are useful to
 improve user privacy.</t>
 
-		<t>The security and privacy implications of IPv6 addresses are discussed in
-           detail in <xref target="RFC7721"/>, <xref target="RFC7707"/>, and <xref target="RFC7217"/>.
-</t>
+
+
       </section>
 
 
       <section title="Possible Approaches">
+<!--
         <t>One way to avoid having a stable non-changing address is
         to use DHCPv6 <xref target='RFC8415' /> for obtaining addresses.
 	Section 12 of
@@ -272,8 +275,8 @@ improve user privacy.</t>
         assignment and management of "temporary addresses", which
         are never renewed and provide the same property of
         temporary addresses described in this document with regards
-        to the privacy concern.</t>
-        <t>Another approach, compatible with the stateless address
+        to the privacy concern.</t> -->
+        <t>One approach, compatible with the stateless address
         autoconfiguration architecture, would be to change the
         interface identifier portion of an address over time. Changing
         the interface identifier can
@@ -338,7 +341,10 @@ improve user privacy.</t>
     </section>
 
     <section anchor="SECTION3" title="Protocol Description">
-      <t>This section defines the procedures for the generation of IPv6 temporary addresses with the following properties:</t>
+      <t>The following subsections define the procedures for the generation of IPv6 temporary addresses.</t>
+
+<section title="Design Guidelines" anchor="design">
+      <t>Temporary addresses observe the following properties:</t>
       <t>
         <list style="numbers">
 
@@ -376,7 +382,7 @@ improve user privacy.</t>
 
 </list>
 </t>
-
+</section>
 
 
       <section title="Assumptions">
@@ -411,7 +417,7 @@ improve user privacy.</t>
         enablement. This document also assumes that an API will
         exist that allows individual applications to indicate
         whether they prefer to use temporary or stable addresses
-        and override the system defaults.
+        and override the system defaults (see e.g. <xref target="RFC5014"/>).
    </t>
       </section>
 
@@ -420,7 +426,7 @@ improve user privacy.</t>
       <section anchor="SECTION3_2"
       title="Generation of Randomized Interface Identifiers">
 
-<t>The following subsections specify example algorithms for generating temporary interface identifiers that follow the guidelines in <xref target="SECTION3"/> of this document. The algorithm specified in <xref target="randomized-IIDs"/> benefits from a Pseudo-Random Number Generator (PRNG) available on the system. The algorithm specified in <xref target="RFC-7217"/> allows for code reuse by nodes that implement <xref target="RFC7217"/>.
+<t>The following subsections specify example algorithms for generating temporary interface identifiers that follow the guidelines in <xref target="design"/> of this document. The algorithm specified in <xref target="randomized-IIDs"/> benefits from a Pseudo-Random Number Generator (PRNG) available on the system. The algorithm specified in <xref target="RFC-7217"/> allows for code reuse by nodes that implement <xref target="RFC7217"/>.
 
 <!--<xref target="traditional"/> specifies the traditional algorithm for generating randomized interface identifiers. <xref target="RFC-7217"/> and <xref target="randomized-IIDs"/> specify other possible algorithms.--></t>
 
@@ -438,7 +444,7 @@ improve user privacy.</t>
 <list style="hanging">
 <t>We note that <xref target="RFC4291"/> requires that the Interface
   IDs of all unicast addresses (except those that start with the
-  binary value 000) be 64 bits long. However, the method discussed in this document could be employed for generating Interface IDs of any arbitrary length, albeit at the expense of reduced entropy (when employing Interface IDs smaller than 64 bits).</t>
+  binary value 000) be 64 bits long. However, the method discussed in this document could be employed for generating Interface IDs of any arbitrary length, albeit at the expense of reduced entropy (when employing Interface IDs smaller than 64 bits). The privacy implications of the IID length are discussed in <xref target="RFC7421"/>.</t>
 </list>
 </t>
 
@@ -461,7 +467,7 @@ The resulting Interface Identifier SHOULD be compared against the reserved IPv6 
 <t>
 Compute a random identifier with the expression:
 <vspace blankLines="1" />
-RID = F(Prefix, MAC_Address, Network_ID, Time, DAD_Counter, secret_key)
+RID = F(Prefix, Net_Iface, Network_ID, Time, DAD_Counter, secret_key)
 <vspace blankLines="1" />
 Where:
 <list style="hanging">
@@ -469,16 +475,16 @@ Where:
 <vspace blankLines="0" />Random Identifier</t>
 <t hangText="F():">
 <vspace blankLines="0" />A pseudorandom function (PRF) that MUST NOT be computable from the outside (without knowledge of the secret key). F() MUST also be difficult to reverse, such that it resists attempts to obtain the secret_key, even when given samples of the output of F() and knowledge
-or control of the other input parameters. F() SHOULD produce an output of at least 64 bits. F() could be implemented as a cryptographic hash of the concatenation of each of the function parameters. SHA-256 is one possible option for F(). Note: MD5 <xref target="RFC1321"/> is considered unacceptable for F() <xref target="RFC6151"/>.</t>
+or control of the other input parameters. F() SHOULD produce an output of at least 64 bits. F() could be implemented as a cryptographic hash of the concatenation of each of the function parameters. SHA-256 <xref target="FIPS-SHS"/> is one possible option for F(). Note: MD5 <xref target="RFC1321"/> is considered unacceptable for F() <xref target="RFC6151"/>.</t>
 <t hangText="Prefix:">
 <vspace blankLines="0" />The prefix to be used for SLAAC, as learned from an ICMPv6 Router Advertisement message.</t>
-<t hangText="MAC_Address:">
-<vspace blankLines="0" />The MAC address corresponding to the underlying network interface card, in the case the link uses IEEE802 link-layer identifiers. Employing the MAC address in this expression (in replacement of the Net_Iface parameter of the expression in RFC7217) means that the re-generation of a randomized MAC address will result in a different temporary address.</t>
+<t hangText="Net_Iface:">
+<vspace blankLines="0" />The MAC address corresponding to the underlying network interface card, in the case the link uses IEEE802 link-layer identifiers. Employing the MAC address for this parameter (over the other suggested options in RFC7217) means that the re-generation of a randomized MAC address will result in a different temporary address.</t>
 <t hangText="Network_ID:">
 <vspace blankLines="0" />Some network-specific data that identifies
 the subnet to which this interface is attached -- for example, the IEEE 802.11 Service Set Identifier (SSID) corresponding to the network to which this interface is associated. Additionally, Simple DNA <xref target="RFC6059"/> describes ideas that could be leveraged to generate a Network_ID parameter. This parameter is SHOULD be employed if some form of "Network_ID" is available.</t>
 <t hangText="Time:">
-<vspace blankLines="0" />An implementation-dependent representation of time. One possible example is the representation in UNIX-like systems <xref target="OPEN-GROUP"/>, that measure time in terms of the number of seconds elapsed since the Epoch (00:00:00 Coordinated Universal Time (UTC), 1 January 1970).</t>
+<vspace blankLines="0" />An implementation-dependent representation of time. One possible example is the representation in UNIX-like systems <xref target="OPEN-GROUP"/>, that measure time in terms of the number of seconds elapsed since the Epoch (00:00:00 Coordinated Universal Time (UTC), 1 January 1970). The addition of the "Time" argument results in (statistically) different interface identifiers over time.</t>
 
 <t hangText="DAD_Counter:">
 <vspace blankLines="0" />A counter that is employed to resolve Duplicate Address Detection (DAD) conflicts.<!-- It MUST be initialized to 0, and incremented by 1 for each new tentative address that is configured as a result of a DAD conflict. Implementations that record DAD_Counter in non-volatile memory for each {Prefix, Net_Iface, Network_ID} tuple MUST initialize DAD_Counter to the recorded value if such an entry exists in non-volatile memory. See <xref target="dad-conflicts"/> for additional details.--></t>
@@ -505,6 +511,7 @@ The resulting Interface Identifier SHOULD be compared against the reserved IPv6 
 </list>
 </t>
 
+
 </section>
 
       </section>
@@ -517,6 +524,7 @@ The resulting Interface Identifier SHOULD be compared against the reserved IPv6 
 
       <section anchor="SECTION3_3"
       title="Generating Temporary Addresses">
+
         <t>
         <xref target='RFC4862' /> describes the steps for
         generating a link-local address when an interface becomes
@@ -590,7 +598,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
             times. If after TEMP_IDGEN_RETRIES consecutive attempts
             no non-unique address was generated, the node MUST log
             a system error and MUST NOT attempt to generate
-            temporary addresses for that interface.</t>
+            temporary addresses for that interface. This allows hosts to recover from ocassional DAD failures, or otherwhise log the recurrent address collissions.</t>
           </list>
         </t>
       </section>
@@ -697,7 +705,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
         <xref target='RFC4193' /> prefixes while still generating
         temporary addresses for all other global prefixes. Another
         site might wish to enable temporary address generation only
-        for the prefixes 2001::/16 and 2002::/16 while disabling it
+        for the prefixes 2001:db8:1::/48 and 2001:db8:2::/48 while disabling it
         for all other prefixes. To support this behavior,
         implementations SHOULD provide a way to enable and disable
         generation of temporary addresses for specific prefix
@@ -706,29 +714,38 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
         prefix subranges. Note that the per-prefix setting can be
         applied at any granularity, and not necessarily on a per
         subnet basis.</t>
-        <t>The use of temporary addresses may cause unexpected
-        difficulties with some applications. As described below,
-        some servers refuse to accept communications from clients
-        for which they cannot map the IP address into a DNS name.
-        In addition, some applications may not behave robustly if
-        temporary addresses are used and an address expires before
-        the application has terminated, or if it opens multiple
-        sessions, but expects them to all use the same addresses.
+
+      <t>Use of the extensions defined in this document may
+      complicate debugging and other operational troubleshooting
+      activities. Consequently, it may be site policy that
+      temporary addresses should not be used. Consequently,
+      implementations MUST provide a method for the end user or
+      trusted administrator to override the use of temporary
+      addresses.</t>
 <!--
         Consequently, the use of temporary addresses SHOULD be
         disabled by default in order to minimize potential
         disruptions. Individual applications, which have specific
         knowledge about the normal duration of connections, MAY
-        override this as appropriate.--></t>
-        <t>If a very small number of nodes (say, only one) use a
-        given prefix for extended periods of time, just changing
-        the interface identifier part of the address may not be
-        sufficient to ensure privacy, since the prefix acts as a
-        constant identifier. The procedures described in this
-        document are most effective when the prefix is reasonably
-        non static or is used by a fairly large number of
-        nodes.</t>
+        override this as appropriate.-->
       </section>
+
+    <section title="Defined Constants">
+      <t>Constants defined in this document include:</t>
+      <t>TEMP_VALID_LIFETIME -- Default value: 1 week. Users should
+      be able to override the default value.</t>
+      <t>TEMP_PREFERRED_LIFETIME -- Default value: 1 day. Users
+      should be able to override the default value.</t>
+      <t>REGEN_ADVANCE -- 5 seconds</t>
+      <t>MAX_DESYNC_FACTOR -- 10 minutes. Upper bound on
+      DESYNC_FACTOR.</t>
+      <t>DESYNC_FACTOR -- A random value within the range 0 -
+      MAX_DESYNC_FACTOR. It is computed once at system start
+      (rather than each time it is used) and must never be greater
+      than (TEMP_PREFERRED_LIFETIME - REGEN_ADVANCE).</t>
+      <t>TEMP_IDGEN_RETRIES -- Default value: 3</t>
+    </section>
+
     </section>
 
 
@@ -753,8 +770,13 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
       whether one is seeing behavior caused by a single errant
       machine, or by a number of them.</t>
 
-      <t>Some servers refuse to grant access to clients for which
-      no DNS name exists. That is, they perform a DNS PTR query to
+<!-- XXXX To be improved -->
+<t>Network deployments are currently recommended to provide multiple IPv6 addresses from each prefix to general-purpose hosts <xref target="RFC7934"/>. However, in some scenarios, use of a large number of IPv6 addresses may have negative implications on network devices that need to maintain entries for each IPv6 address in some data structures (e.g., <xref target="RFC7039"/>). Additionally, concurrent active use of multiple IPv6 addresses will increase neighbour discovery traffic if Neighbour Caches in network devices are not large enough to store all addresses on the link. This can impact performance and energy efficiency on networks on which multicast is expensive (e.g. <xref target="I-D.ietf-mboned-ieee802-mcast-problems"/>).</t>
+
+        <t>The use of temporary addresses may cause unexpected
+        difficulties with some applications. For example,
+        some servers refuse to accept communications from clients
+        for which they cannot map the IP address into a DNS name. That is, they perform a DNS PTR query to
       determine the DNS name, and may then also perform an AAAA
       query on the returned name to verify that the returned DNS
       name maps back into the address being used. Consequently,
@@ -768,32 +790,17 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
       could register temporary addresses in the DNS using random
       names (for example, a string version of the random address
       itself).</t>
-      <t>Use of the extensions defined in this document may
-      complicate debugging and other operational troubleshooting
-      activities. Consequently, it may be site policy that
-      temporary addresses should not be used. Consequently,
-      implementations MUST provide a method for the end user or
-      trusted administrator to override the use of temporary
-      addresses.</t>
+
+        <t>In addition, some applications may not behave robustly if
+        temporary addresses are used and an address expires before
+        the application has terminated, or if it opens multiple
+        sessions, but expects them to all use the same addresses.</t>
+
     </section>
 
 <!--
    <vspace blankLines="100" /> -->
-    <section title="Defined Constants">
-      <t>Constants defined in this document include:</t>
-      <t>TEMP_VALID_LIFETIME -- Default value: 1 week. Users should
-      be able to override the default value.</t>
-      <t>TEMP_PREFERRED_LIFETIME -- Default value: 1 day. Users
-      should be able to override the default value.</t>
-      <t>REGEN_ADVANCE -- 5 seconds</t>
-      <t>MAX_DESYNC_FACTOR -- 10 minutes. Upper bound on
-      DESYNC_FACTOR.</t>
-      <t>DESYNC_FACTOR -- A random value within the range 0 -
-      MAX_DESYNC_FACTOR. It is computed once at system start
-      (rather than each time it is used) and must never be greater
-      than (TEMP_PREFERRED_LIFETIME - REGEN_ADVANCE).</t>
-      <t>TEMP_IDGEN_RETRIES -- Default value: 3</t>
-    </section>
+
 
 
     <section anchor="changes" title="Significant Changes from RFC4941">
@@ -804,10 +811,10 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
 
 <t>Broadly speaking, this document introduces the following changes:
 <list style="symbols">
-<t>Addresses a number of flaws in the algorithm for generating temporary addresses (see <xref target="RAID2015"/> and <xref target="RFC7721"/>).</t>
-<t>Allows hosts to employ only temporary addresses (i.e. configuration of stable addresses is no longer implied or required).</t>
-<t>Suggests that temporary addresses be enabled by default (in line with <xref target="RFC7258"/>).</t>
-<t>Addresses all errata submitted for <xref target="RFC4941"/>.</t>
+	<t>Addresses a number of flaws in the algorithm for generating temporary addresses (see <xref target="RAID2015"/> and <xref target="RFC7721"/>).</t>
+	<t>Allows hosts to employ only temporary addresses (i.e. configuration of stable addresses is no longer implied or required).</t>
+	<t>Suggests that temporary addresses be enabled by default (in line with <xref target="RFC7258"/>).</t>
+	<t>Addresses all errata submitted for <xref target="RFC4941"/>.</t>
 </list>
 </t>
 </section>
@@ -830,7 +837,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
       to use heuristics in deciding when an address is no longer in
       use.</t>
 
-      <t><!--The determination as to whether to use stable versus
+      <!--The determination as to whether to use stable versus
       temporary addresses can in some cases only be made by an
       application. For example, some applications may always want
       to use temporary addresses, while others may want to use them
@@ -838,23 +845,36 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
       extensions will likely need to be developed to enable
       individual applications to indicate with sufficient
       granularity their needs with regards to the use of temporary
-      addresses.--> Recommendations on DNS practices to avoid the
+      addresses.--> 
+
+<!--Recommendations on DNS practices to avoid the
       problem described in
       <xref target='SECTION4' /> when reverse DNS lookups fail may
       be needed.
       <xref target='RFC4472' /> contains a more detailed discussion of
       the DNS-related issues.</t>
+-->
+    </section>
+
+
+
+    <section title="Security Considerations">
+        <t>If a very small number of nodes (say, only one) use a
+        given prefix for extended periods of time, just changing
+        the interface identifier part of the address may not be
+        sufficient to address-based network activity correlation, since the prefix acts as a
+        constant identifier. The procedures described in this
+        document are most effective when the prefix is reasonably
+        non static or is used by a fairly large number of
+        nodes.</t>
+
       <t>While this document discusses ways of obscuring a user's
       IP address, the method described is believed to be
       ineffective against sophisticated forms of traffic analysis.
       To increase effectiveness, one may need to consider the use of
       more advanced techniques, such as Onion Routing
       <xref target='ONION' />.</t>
-    </section>
 
-
-
-    <section title="Security Considerations">
       <t>Ingress filtering has been and is being deployed as a
       means of preventing the use of spoofed source addresses in
       Distributed Denial of Service (DDoS) attacks. In a network
@@ -871,7 +891,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
 
 
 <section title="Acknowledgments">
-<t>The authors would like to thank (in alphabetical order) Brian Carpenter, Tim Chown, Lorenzo Colitti, David Farmer, Tom Herbert, Bob Hinden, Christian Huitema, Erik Kline, Dave Plonka, Michael Richardson, Mark Smith, Ole Troan, Johanna Ullrich, and Timothy Winters, for providing valuable comments on earlier versions of this document.</t>
+<t>The authors would like to thank (in alphabetical order) Fred Baker, Brian Carpenter, Tim Chown, Lorenzo Colitti, David Farmer, Tom Herbert, Bob Hinden, Christian Huitema, Erik Kline, Gyan Mishra, Dave Plonka, Michael Richardson, Mark Smith, Pascal Thubert, Ole Troan, Johanna Ullrich, and Timothy Winters, for providing valuable comments on earlier versions of this document.</t>
 
 <t>This document incorporates errata submitted for <xref target="RFC4941"/> by Jiri Bohac and Alfred Hoenes.</t>
 
@@ -904,6 +924,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
 	<?rfc include="reference.RFC.6724" ?>
 
 
+
 <!-- Added as a result of algorithm specification -->
 	<?rfc include="reference.RFC.4086" ?>
 	<?rfc include="reference.RFC.5453" ?>
@@ -929,6 +950,19 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
 
 
     <references title="Informative References">
+
+<!-- Problems with multiple addresses -->
+	<?rfc include="reference.I-D.ietf-mboned-ieee802-mcast-problems" ?>
+
+	<?rfc include="reference.RFC.7934" ?>
+
+	<?rfc include="reference.RFC.7039" ?>
+
+
+
+<!-- why 64 -->
+
+	<?rfc include="reference.RFC.7421" ?>
 
 
 <!-- Pervasive monitoring -->
@@ -1074,8 +1108,4 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
 
   </back>
 </rfc>
-<!--
-Local Variables:
-mode:xml
-End:
-=-->
+
