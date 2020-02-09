@@ -848,22 +848,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
       basis on the network egress point.</t>
     </section>
 
-    <section title="Significant Changes from RFC4941">
-      <t>This section summarizes the changes in this document
-      relative to RFC 4941 that an implementer of RFC 4941 should
-      be aware of.
-      <list style="numbers">
-		<t>Discussion of IEEE-based IIDs has been removed, since the current recommendation (<xref target="RFC8064"/>) is to employ <xref target="RFC7217"/>).</t>
-		<t>The document employs the terminology from <xref target="RFC7721"/>.</t>
-		<t>Sections 2.2 and 2.3 of <xref target="RFC4941"/> have been removed since the topic has been discussed in more detail in e.g. <xref target="RFC7721"/>.</t>
-        <t>The algorithm specified in Section 3.2.1 and 3.2.2 of <xref target="RFC4941"/> was replaced by two possible alternative algorithms.</t>
-		<t>Generation of stable addresses is not implied or required by this document.</t>
-        <t>Temporary addresses are *not* disabled by default.</t>
 
-		<t>Section 3.2.3 from <xref target="RFC4941"/> was removed, based on the explanation of that very section of RFC4941.</t>
-		<t>All the verified errata for <xref target="RFC4941"/> has been incorporated.</t>
-      </list></t>
-    </section>
 
 <section title="Acknowledgments">
 <t>The authors would like to thank (in alphabetical order) Brian Carpenter, Tim Chown, Lorenzo Colitti, David Farmer, Tom Herbert, Bob Hinden, Christian Huitema, Erik Kline, Dave Plonka, Michael Richardson, Mark Smith, Ole Troan, Johanna Ullrich, and Timothy Winters, for providing valuable comments on earlier versions of this document.</t>
@@ -1026,6 +1011,39 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
 
 
     </references>
+
+
+    <section title="Significant Changes from RFC4941">
+
+
+      <t>This section summarizes the changes in this document
+      relative to RFC 4941 that an implementer of RFC 4941 should
+      be aware of.</t>
+
+<t>Broadly speaking, this document introduces the following changes:
+<list style="symbols">
+<t>Addresses a number of flaws in the algorithm for generating temporary addresses.</t>
+<t>Allows hosts to employ only temporary addresses (i.e. configuration of stable addresses is no longer implied or required).</t>
+<t>Suggests that temporary addresses be enabled by default (in line with <xref target="RFC7258"/>).</t>
+<t>Addresses all errata submitted for <xref target="RFC4941"/>.</t>
+</list>
+</t>
+
+
+<t>The following is a more detailed list of the incorporated changes:
+      <list style="numbers">
+		<t>Discussion of IIDs based on IEEE identifiers has been removed, since the current recommendation (<xref target="RFC8064"/>) is to employ <xref target="RFC7217"/>).</t>
+		<t>The document employs the terminology from <xref target="RFC7721"/>.</t>
+		<t>Sections 2.2 and 2.3 of <xref target="RFC4941"/> have been removed since the topic has been discussed in more detail in e.g. <xref target="RFC7721"/>.</t>
+        <t>The algorithm specified in Section 3.2.1 and 3.2.2 of <xref target="RFC4941"/> was replaced by two possible alternative algorithms.</t>
+		<t>Generation of stable addresses is not implied or required by this document.</t>
+        <t>Temporary addresses are enabled by default, in the light of <xref target="RFC7258"/>.</t>
+
+		<t>Section 3.2.3 from <xref target="RFC4941"/> was removed, based on the explanation of that very section of RFC4941.</t>
+		<t>All the verified errata for <xref target="RFC4941"/> has been incorporated.</t>
+      </list></t>
+    </section>
+
 
   </back>
 </rfc>
