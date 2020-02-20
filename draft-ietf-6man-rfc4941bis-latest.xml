@@ -598,7 +598,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
             times. If after TEMP_IDGEN_RETRIES consecutive attempts
             no non-unique address was generated, the node MUST log
             a system error and MUST NOT attempt to generate
-            temporary addresses for that interface. This allows hosts to recover from ocassional DAD failures, or otherwhise log the recurrent address collissions.</t>
+            temporary addresses for that interface. This allows hosts to recover from occasional DAD failures, or otherwhise log the recurrent address collisions.</t>
           </list>
         </t>
       </section>
@@ -811,9 +811,12 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
 
 <t>Broadly speaking, this document introduces the following changes:
 <list style="symbols">
-	<t>Addresses a number of flaws in the algorithm for generating temporary addresses (see <xref target="RAID2015"/> and <xref target="RFC7721"/>).</t>
-	<t>Allows hosts to employ only temporary addresses (i.e. configuration of stable addresses is no longer implied or required).</t>
-	<t>Suggests that temporary addresses be enabled by default (in line with <xref target="RFC7258"/>).</t>
+	<t>Addresses a number of flaws in the algorithm for generating temporary addresses:
+	   The aforementioned flaws include the use of MD5 for computing the temporary IIDs, and reusing the same IID for multiple prefixes (see <xref target="RAID2015"/> and <xref target="RFC7721"/> for further details).</t>
+	<t>Allows hosts to employ only temporary addresses:<vspace blankLines="0" />
+           RFC4941 assumed that temporary addresses were configured in addition to stable addresses. This document does not imply or require the configuration of stable addresses, and thus implementations can now configure both stable and temporary addresses, or temporary addresses only.</t>
+	<t>Suggests that temporary addresses be enabled by default:<vspace blankLines="0" />
+Enabling temporary addresses by default is in line with BCP188 (<xref target="RFC7258"/>), and also with BCP204 (<xref target="RFC7934"/>).</t>
 	<t>Addresses all errata submitted for <xref target="RFC4941"/>.</t>
 </list>
 </t>
@@ -1088,7 +1091,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
     </references>
 
 
-    <section title="Changes from RFC4941 [to be removed by the RFC-Editor before publication">
+    <section title="Changes from RFC4941 [to be removed by the RFC-Editor before publication of this document as an RFC]">
 
 
 <t>The following changes have been introduced by this document:
