@@ -29,7 +29,7 @@ UTN-FRH</organization>
         </postal>
         <phone>+54 11 4650 8472</phone>
         <email>fgont@si6networks.com</email>
-        <uri>http://www.si6networks.com</uri>
+        <uri>https://www.si6networks.com</uri>
        </address>
     </author>
 
@@ -111,7 +111,7 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
 
 <t>The default address selection for IPv6 has been specified in <xref target="RFC6724"/>. The determination as to whether to use stable versus temporary addresses can in some cases only be made by an application. For example, some applications may always want
       to use temporary addresses, while others may want to use them
-      only in some circumstances or not at all. An API such as that specified in <xref target="RFC5014"/> can enable
+      only in some circumstances or not at all. An Application Programming Interface (API) such as that specified in <xref target="RFC5014"/> can enable
       individual applications to indicate a preference for the use of temporary addresses.
 </t>
 
@@ -598,7 +598,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
             times. If after TEMP_IDGEN_RETRIES consecutive attempts
             no non-unique address was generated, the node MUST log
             a system error and MUST NOT attempt to generate
-            temporary addresses for that interface. This allows hosts to recover from occasional DAD failures, or otherwhise log the recurrent address collisions.</t>
+            temporary addresses for that interface. This allows hosts to recover from occasional DAD failures, or otherwise log the recurrent address collisions.</t>
           </list>
         </t>
       </section>
@@ -732,7 +732,7 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
 
     <section title="Defined Constants">
       <t>Constants defined in this document include:</t>
-      <t>TEMP_VALID_LIFETIME -- Default value: 1 week. Users should
+      <t>TEMP_VALID_LIFETIME -- Default value: 2 days. Users should
       be able to override the default value.</t>
       <t>TEMP_PREFERRED_LIFETIME -- Default value: 1 day. Users
       should be able to override the default value.</t>
@@ -814,10 +814,14 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
 	<t>Addresses a number of flaws in the algorithm for generating temporary addresses:
 	   The aforementioned flaws include the use of MD5 for computing the temporary IIDs, and reusing the same IID for multiple prefixes (see <xref target="RAID2015"/> and <xref target="RFC7721"/> for further details).</t>
 	<t>Allows hosts to employ only temporary addresses:<vspace blankLines="0" />
-           RFC4941 assumed that temporary addresses were configured in addition to stable addresses. This document does not imply or require the configuration of stable addresses, and thus implementations can now configure both stable and temporary addresses, or temporary addresses only.</t>
-	<t>Suggests that temporary addresses be enabled by default:<vspace blankLines="0" />
+           <xref target="RFC4941"/> assumed that temporary addresses were configured in addition to stable addresses. This document does not imply or require the configuration of stable addresses, and thus implementations can now configure both stable and temporary addresses, or temporary addresses only.</t>
+	<t>Recommends that temporary addresses be enabled by default:<vspace blankLines="0" />
 Enabling temporary addresses by default is in line with BCP188 (<xref target="RFC7258"/>), and also with BCP204 (<xref target="RFC7934"/>).</t>
+
+	<t>Reduces the default Valid Lifetime for temporary addresses:<vspace blankLines="0" />
+The default Valid Lifetime for temporary addresses has been reduced from 1 week to 2 days, decreasing the typical number of concurrent temporary addresses from 7 to 2. This reduces the possible stress on network elements (see <xref target="SECTION4"/> for further details).</t>
 	<t>Addresses all errata submitted for <xref target="RFC4941"/>.</t>
+
 </list>
 </t>
 </section>
@@ -932,7 +936,9 @@ Enabling temporary addresses by default is in line with BCP188 (<xref target="RF
 	<?rfc include="reference.RFC.4086" ?>
 	<?rfc include="reference.RFC.5453" ?>
 	<?rfc include="reference.RFC.7136" ?>
+<!--
 	<?rfc include="reference.RFC.8064" ?>
+-->
 
 	<?rfc include="reference.RFC.7217" ?>
 	<?rfc include="reference.RFC.4941" ?>
@@ -1040,7 +1046,7 @@ Enabling temporary addresses by default is in line with BCP188 (<xref target="RF
 
 
 	<!-- DHCPv6 -->
-	<?rfc include="reference.RFC.8415" ?>
+<!--	<?rfc include="reference.RFC.8415" ?> -->
 
 <!-- Dynamic DNS -->
 <!--
@@ -1085,12 +1091,12 @@ Enabling temporary addresses by default is in line with BCP188 (<xref target="RF
 
 
 <!-- DNSOP -->
-	<?rfc include="reference.RFC.4472" ?>
+<!--	<?rfc include="reference.RFC.4472" ?> -->
 
 
     </references>
 
-
+<!--
     <section title="Changes from RFC4941 [to be removed by the RFC-Editor before publication of this document as an RFC]">
 
 
@@ -1107,7 +1113,7 @@ Enabling temporary addresses by default is in line with BCP188 (<xref target="RF
 		<t>All the verified errata for <xref target="RFC4941"/> has been incorporated.</t>
       </list></t>
     </section>
-
+-->
 
   </back>
 </rfc>
