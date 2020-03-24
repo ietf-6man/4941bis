@@ -10,8 +10,8 @@
 <rfc obsoletes="rfc4941" category="std" ipr="trust200902"
 docName="draft-ietf-6man-rfc4941bis-latest">
   <front>
-    <title abbrev="Temporary Address Extensions to Autoconf">Temporary
-    Address Extensions for Stateless Address Autoconfiguration in
+    <title abbrev="Privacy Extensions to Autoconf">Privacy
+    Extensions for Stateless Address Autoconfiguration in
     IPv6</title>
 
 
@@ -97,7 +97,7 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
       are formed by combining network prefixes with an interface
       identifier. This document describes an extension that causes
       nodes to generate global scope addresses with randomized interface identifiers
-      that change over time. Changing global scope addresses over time may make it more
+      that change over time. Changing global scope addresses over time makes it more
       difficult for eavesdroppers and other information collectors
       to identify when different addresses used in different
       transactions correspond to the same node. This document obsoletes RFC4941.</t>
@@ -107,7 +107,7 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
     <section anchor="intro" title="Introduction">
       <t>Stateless address autoconfiguration (SLAAC)
       <xref target='RFC4862' /> defines how an IPv6 node generates
-      addresses without the need for a Dynamic Host Configuration Protocol for IPv6 (DHCPv6) server. The security and privacy implications of such addresses have been discussed in <xref target="RFC7721"/>,<xref target="RFC7217"/>, and RFC7707. This document specifies an extension for SLAAC to generate temporary addresses. This is a revision of RFC4941, and formally obsoletes RFC4941. <xref target="changes"/> describes the changes from <xref target="RFC4941"/>.</t>
+      addresses without the need for a Dynamic Host Configuration Protocol for IPv6 (DHCPv6) server. The security and privacy implications of such addresses have been discussed in great detail in <xref target="RFC7721"/>,<xref target="RFC7217"/>, and RFC7707. This document specifies an extension for SLAAC to generate temporary addresses, such that the aforementioned issues are mitigated. This is a revision of RFC4941, and formally obsoletes RFC4941. <xref target="changes"/> describes the changes from <xref target="RFC4941"/>.</t>
 
 <t>The default address selection for IPv6 has been specified in <xref target="RFC6724"/>. The determination as to whether to use stable versus temporary addresses can in some cases only be made by an application. For example, some applications may always want
       to use temporary addresses, while others may want to use them
@@ -117,7 +117,8 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
 
 
       <t>
-      <xref target='SECTION2' /> provides background information.
+      <xref target='SECTION2' /> provides background information on
+      the issue.
       <xref target='SECTION3' /> describes a procedure for
       generating temporary interface identifiers and global scope
       addresses.
@@ -230,7 +231,8 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
         query), the information is often readily available. In such
         cases, changing the address on a machine over time would do
         little to address the concerns raised in this document,
-        (see <xref target='SECTION4' />).</t>
+        unless the DNS name is changed as well (see
+        <xref target='SECTION4' />).</t>
         <t>Web browsers and servers typically exchange "cookies"
         with each other
         <xref target='RFC6265' />. Cookies allow web servers to
@@ -255,8 +257,9 @@ the title) for use on http://www.rfc-editor.org/search.html. -->
 		<t>The security and privacy implications of IPv6 addresses are discussed in
            detail in <xref target="RFC7721"/>, <xref target="RFC7707"/>, and <xref target="RFC7217"/>.</t>
 
-<t>Using temporary addresses alone is not sufficient to prevent
-tracking.</t>
+<t>Using temporary addresses alone is not sufficient to prevent all forms of tracking. It
+is however clear that temporary addresses are useful to
+improve user privacy.</t>
 
 
 
@@ -758,28 +761,40 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
       algorithms in this document may complicate providing such a
       future flexibility, if global uniqueness is necessary.</t>
 -->
-      <t>A host changing addresses frequently may conflict with the
-      desire to effectively maintain and debug a network. Having
-      clients use addresses that change over time will make it more
-      difficult to track down and isolate operational problems. For
-      example, when looking at packet traces, it could become more
-      difficult to determine whether one is seeing behavior caused by
-      a single errant machine, or by a number of them.</t>
+      <t>The desires of protecting individual privacy versus the
+      desire to effectively maintain and debug a network can
+      conflict with each other. Having clients use addresses that
+      change over time will make it more difficult to track down
+      and isolate operational problems. For example, when looking
+      at packet traces, it could become more difficult to determine
+      whether one is seeing behavior caused by a single errant
+      machine, or by a number of them.</t>
 
-      <t>Use of a large number of IPv6 addresses on a network may have
-      negative implications on network devices that maintain state for
-      IPv6 addresses (e.g., <xref target="RFC7039"/>). Concurrent
-      active use of multiple IPv6 addresses will increase neighbour
-      discovery traffic if Neighbour Caches in network devices are not
-      large enough to store all addresses on the link. This can impact
-      performance and energy efficiency on networks on which multicast
-      is expensive (e.g. <xref
-      target="I-D.ietf-mboned-ieee802-mcast-problems"/>).</t>
+<!-- XXXX To be improved -->
+<t>Network deployments are currently recommended to provide multiple IPv6 addresses from each prefix to general-purpose hosts <xref target="RFC7934"/>. However, in some scenarios, use of a large number of IPv6 addresses may have negative implications on network devices that need to maintain entries for each IPv6 address in some data structures (e.g., <xref target="RFC7039"/>). Additionally, concurrent active use of multiple IPv6 addresses will increase neighbour discovery traffic if Neighbour Caches in network devices are not large enough to store all addresses on the link. This can impact performance and energy efficiency on networks on which multicast is expensive (e.g. <xref target="I-D.ietf-mboned-ieee802-mcast-problems"/>).</t>
 
-      <t>An applications may not behave robustly if temporary
-      addresses are used and an address expires before the application
-      has terminated, or if it opens multiple sessions, but expects
-      them to all use the same addresses.</t>
+        <t>The use of temporary addresses may cause unexpected
+        difficulties with some applications. For example,
+        some servers refuse to accept communications from clients
+        for which they cannot map the IP address into a DNS name. That is, they perform a DNS PTR query to
+      determine the DNS name, and may then also perform an AAAA
+      query on the returned name to verify that the returned DNS
+      name maps back into the address being used. Consequently,
+      clients not properly registered in the DNS may be unable to
+      access some services. As noted earlier, however, a node's DNS
+      name (if non-changing) serves as a constant identifier. The
+      wide deployment of the extension described in this document
+      could challenge the practice of inverse-DNS-based
+      "authentication," which has little validity, though it is
+      widely implemented. In order to meet server challenges, nodes
+      could register temporary addresses in the DNS using random
+      names (for example, a string version of the random address
+      itself).</t>
+
+        <t>In addition, some applications may not behave robustly if
+        temporary addresses are used and an address expires before
+        the application has terminated, or if it opens multiple
+        sessions, but expects them to all use the same addresses.</t>
 
     </section>
 
@@ -800,7 +815,8 @@ Addresses (ULA) <xref target="RFC4193"/> prefix.</t>
 	   The aforementioned flaws include the use of MD5 for computing the temporary IIDs, and reusing the same IID for multiple prefixes (see <xref target="RAID2015"/> and <xref target="RFC7721"/> for further details).</t>
 	<t>Allows hosts to employ only temporary addresses:<vspace blankLines="0" />
            <xref target="RFC4941"/> assumed that temporary addresses were configured in addition to stable addresses. This document does not imply or require the configuration of stable addresses, and thus implementations can now configure both stable and temporary addresses, or temporary addresses only.</t>
-	<t>Removes the recommendation that temporary addresses are disabled by default:<vspace blankLines="0" />.</t>
+	<t>Recommends that temporary addresses be enabled by default:<vspace blankLines="0" />
+Enabling temporary addresses by default is in line with BCP188 (<xref target="RFC7258"/>), and also with BCP204 (<xref target="RFC7934"/>).</t>
 
 	<t>Reduces the default Valid Lifetime for temporary addresses:<vspace blankLines="0" />
 The default Valid Lifetime for temporary addresses has been reduced from 1 week to 2 days, decreasing the typical number of concurrent temporary addresses from 7 to 2. This reduces the possible stress on network elements (see <xref target="SECTION4"/> for further details).</t>
@@ -836,7 +852,7 @@ The default Valid Lifetime for temporary addresses has been reduced from 1 week 
       extensions will likely need to be developed to enable
       individual applications to indicate with sufficient
       granularity their needs with regards to the use of temporary
-      addresses.-->
+      addresses.--> 
 
 <!--Recommendations on DNS practices to avoid the
       problem described in
@@ -850,13 +866,14 @@ The default Valid Lifetime for temporary addresses has been reduced from 1 week 
 
 
     <section title="Security Considerations">
-      <t>If a very small number of nodes (say, only one) use a given
-      prefix for extended periods of time, just changing the interface
-      identifier part of the address is not sufficient to
-      address-based network activity correlation, since the prefix
-      acts as a constant identifier. The procedures described in this
-      document are most effective when the prefix is reasonably non
-      static or is used by a fairly large number of nodes.</t>
+        <t>If a very small number of nodes (say, only one) use a
+        given prefix for extended periods of time, just changing
+        the interface identifier part of the address may not be
+        sufficient to address-based network activity correlation, since the prefix acts as a
+        constant identifier. The procedures described in this
+        document are most effective when the prefix is reasonably
+        non static or is used by a fairly large number of
+        nodes.</t>
 
       <t>While this document discusses ways of obscuring a user's
       IP address, the method described is believed to be
@@ -876,17 +893,6 @@ The default Valid Lifetime for temporary addresses has been reduced from 1 week 
       correct prefix and non-existent interface ID). This can be
       addressed by using access control mechanisms on a per-address
       basis on the network egress point.</t>
-
-      <t>XXX: missing security considerations:</t>
-      <t><list style="symbols">
-	<t>The use of a temporary address does not protect the user
-	against tracking in many cases. E.g if the user authenticates
-	to a service or the web service uses cookies or other
-	identifiers in sessions..</t>
-	<t>If a temporary address is used in a session where the user
-	authenticates, any notion of "privacy" for that address is
-	compromised.</t>
-      </list></t>
     </section>
 
 
